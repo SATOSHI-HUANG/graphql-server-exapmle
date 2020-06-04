@@ -33,4 +33,8 @@ exports.typeDefs = gql`
         createUser(name: String!, age: Int!): User
         addPost(id: ID!, title: String!, content: String!): Post
     }
+
+    type Subscription {
+        userAdded: User
+    }
 `;

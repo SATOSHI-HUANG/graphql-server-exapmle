@@ -1,6 +1,17 @@
 const { users, books, posts } = require('./data');
 
+const { PubSub } = require('apollo-server');
+
+const pubSub = new PubSub();
+
+const USER_ADDED = 'USER_ADDED';
+
 exports.resolvers = {
+    Subscription: {
+        userAdded: {
+            subscribe: () => pubSub.asyncIterator([USER_ADDED]),
+        }
+    },
     Query: {
         me: () => users[0],
         user: (parent, args, context) => {
@@ -21,12 +32,14 @@ exports.resolvers = {
         createUser: (parent, args, context) => {
             const { name, age } = args;
 
+            pubSub.publish(USER_ADDED, { userAdded: args });
+
             users.push({
                 id: users[users.length - 1].id + 1,
                 name,
                 age,
                 friends: []
-            })
+            });
 
             return users[users.length - 1];
         },
@@ -42,6 +55,11 @@ exports.resolvers = {
             })
 
             return posts[posts.length - 1];
+        }
+    },
+    Subscription: {
+        userAdded: {
+            subscribe: () => pubSub.asyncIterator([USER_ADDED]),
         }
     }
 };
