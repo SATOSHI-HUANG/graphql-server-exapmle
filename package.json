@@ -16,7 +16,7 @@
     "@babel/node": "^7.10.1",
     "@babel/plugin-transform-typescript": "^7.10.1",
     "@babel/preset-env": "^7.10.2",
-    "apollo-server": "^2.13.1",
+    "apollo-server": "^2.14.2",
     "graphql": "^15.0.0",
     "nodemon": "^2.0.4"
   }
